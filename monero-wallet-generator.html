@@ -3645,18 +3645,20 @@ This is your new Monero wallet:
     <form><input type="button" onclick="js:genwallet(null);" value="Generate another wallet" action=""/></form>
   </center>
 </p>
-<!-- non english languages disabled due to UTF-8 issues preventing restore
 <p>
   <center>
     <form>
       <input type="button" onclick="js:genwallet('english');" value="English" action=""/>
       <input type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/>
+<!-- portuguese word list has a few prefix collisions
       <input type="button" onclick="js:genwallet('portuguese');" value="Portuguese" action=""/>
+-->
       <input type="button" onclick="js:genwallet('japanese');" value="Japanese" action=""/>
+      <br>
+      <font size="-1">(restoring non English language seeds needs a recent simplewallet)</font>
     </form>
   </center>
 </p>
--->
 
 <hr width="50%">
 
