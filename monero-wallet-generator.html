@@ -2121,6 +2121,24 @@ var cnUtil = (function(initConfig) {
         return keys;
     };
 
+    this.create_address_if_prefix = function(seed, prefix) {
+        var keys = {};
+        var first;
+        if (seed.length !== 64) {
+            first = this.keccak(seed, seed.length / 2, 32);
+        } else {
+            first = seed;
+        }
+        keys.spend = this.generate_keys(first);
+        public_addr = this.pubkeys_to_string(keys.spend.pub, "");
+        if (public_addr.toUpperCase().slice(0, prefix.length) != prefix.toUpperCase())
+          return null;
+        var second = this.keccak(keys.spend.sec, 32, 32);
+        keys.view = this.generate_keys(second);
+        keys.public_addr = this.pubkeys_to_string(keys.spend.pub, keys.view.pub);
+        return keys;
+    };
+
     this.create_addr_prefix = function(seed) {
         var first;
         if (seed.length !== 64) {
@@ -3648,6 +3666,16 @@ This is your new Monero wallet:
 <p>
   <center>
     <form>
+      <input type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
+      <input type="text" value="4" id="prefix_widget"/>
+      <br>
+      <font size="-1">(very slow for more than a few characters, no check for valid prefixes)</font>
+    </form>
+  </center>
+</p>
+<p>
+  <center>
+    <form>
       <input type="button" onclick="js:genwallet('english');" value="English" action=""/>
       <input type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/>
 <!-- portuguese word list has a few prefix collisions
@@ -3757,13 +3785,16 @@ place any email address in a new GPG key, so the right email being shown is no g
 
 <script>
 current_lang='english';
+keys = null;
 function genwallet(lang)
 {
-  if (lang!=null)
+  if (lang!=null) {
     current_lang = lang;
-
-  seed = cnUtil.rand_32();
-  keys = cnUtil.create_address(seed);
+  }
+  else {
+    seed = cnUtil.rand_32();
+    keys = cnUtil.create_address(seed);
+  }
   mnemonic = mn_encode(seed,current_lang);
 
   spend_key_widget = document.getElementById("spend_key_widget");
@@ -3776,8 +3807,79 @@ function genwallet(lang)
   address_widget.innerHTML = keys.public_addr;
   mnemonic_widget.innerHTML = mnemonic;
 }
-genwallet();
 
+previous_button_text = "";
+prefix = "";
+function genwallet_prefix_worker()
+{
+  attempts = 0;
+  while (true) {
+    attempts++;
+    seed = cnUtil.rand_32();
+    keys = cnUtil.create_address_if_prefix(seed,prefix);
+    if (keys != null) {
+      gen_prefix_widget = document.getElementById("gen_prefix_widget");
+      gen_prefix_widget.value = previous_button_text;
+      generating = false;
+      break;
+    }
+    if (attempts == 10) {
+      if (generating)
+        setTimeout(genwallet_prefix_worker, 0);
+      return;
+    }
+  }
+  mnemonic = mn_encode(seed,current_lang);
+
+  spend_key_widget = document.getElementById("spend_key_widget");
+  view_key_widget = document.getElementById("view_key_widget");
+  address_widget = document.getElementById("address_widget");
+  mnemonic_widget = document.getElementById("mnemonic_widget");
+
+  spend_key_widget.innerHTML = keys.spend.sec;
+  view_key_widget.innerHTML = keys.view.sec;
+  address_widget.innerHTML = keys.public_addr;
+  mnemonic_widget.innerHTML = mnemonic;
+}
+
+generating = false;
+function genwallet_prefix()
+{
+  gen_prefix_widget = document.getElementById("gen_prefix_widget");
+  if (generating) {
+    generating = false;
+    gen_prefix_widget.value = previous_button_text;
+  }
+  else {
+    prefix_widget = document.getElementById("prefix_widget");
+    prefix = prefix_widget.value;
+    prefix.trim();
+    if (prefix.length < 2 || prefix[0] != "4") {
+      alert("Bad prefix "+prefix+" should start with 4 and be at least one extra character");
+      return;
+    }
+    /*  Seems to pass strings that don't get found
+    ok = false;
+    try {
+      if (cnBase58.decode(prefix) != "")
+        ok = true;
+    }
+    catch(e) {
+    }
+    if (!ok) {
+      alert("Bad prefix "+prefix+" is not a valid Monero address prefix");
+      return;
+    }
+    */
+
+    generating = true;
+    previous_button_text = gen_prefix_widget.value;
+    gen_prefix_widget.value = "STOP";
+    setTimeout(genwallet_prefix_worker, 0);
+  }
+}
+
+genwallet();
 </script>
 
 </body>
