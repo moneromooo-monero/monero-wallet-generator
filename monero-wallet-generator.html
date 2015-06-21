@@ -3593,6 +3593,11 @@ that is not connected to the network, and may even never be. This way, you can c
 a Monero wallet without risking the keys.
 </p>
 <p>
+This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
+You can check for up to date versions of this page
+<a href="https://github.com/moneromooo-monero/monero-wallet-generator/blob/master/monero-wallet-generator.html">here</a>.
+</p>
+<p>
 The <strong>public address</strong> is the address you give third parties to send monero to you. It is
 the only information here that's meant to be public.
 </p>
@@ -3614,7 +3619,7 @@ This is your new Monero wallet:
 </p>
 <p>
 <table border="1" cellpadding="0" cellspacing="0"><tr><td>
-<table>
+<table cellpadding="8" cellspacing="0">
   <tr class="public">
     <td><strong>Public address</strong></td>
     <td><font size="-1"><span id="address_widget">generating...</span></font></td>
@@ -3656,27 +3661,97 @@ This is your new Monero wallet:
 <hr width="50%">
 
 <p>
-All released versions of this page will be GPG signed by moneromooo, to avoid trojaned versions
-being passed around. It is in your interest to check the signature.
-<br>
-<a href="https://raw.githubusercontent.com/monero-project/bitmonero/master/utils/gpg_keys/moneromooo.asc">moneromooo's GPG key</a>
-can be found in the Monero source tree.
-<br>
-You can check for up to date versions of this page
-<a href="https://github.com/moneromooo-monero/monero-wallet-generator/blob/master/monero-wallet-generator.html">here</a>.
-</p>
-
-<hr width="50%">
-
-<p>
   Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
   <br>
   If you found this useful, a donation would be appreciated:
   <br>
+  <table border="1" cellpadding="4" cellspacing="0"><tr class="public"><td>
   <font size="-1">4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</font>
+  </td></tr>
+  </table>
   <br>
   Thanks, and welcome to Monero!
 </p>
+
+<hr width="50%">
+
+<a name="gpg-instructions">
+<h2>How to verify GPG signatures</h2>
+
+<p>
+All released versions of this page will be GPG signed by moneromooo, to avoid trojaned versions
+being passed around. It is in your interest to check the signature.
+</p>
+<p>
+This page is maintained as a
+<a href="https://github.com/moneromooo-monero/monero-wallet-generator/">git repository</a>.
+All commits are signed. In addition, released versions of the page are signed separately.
+In order to check either, you first need to import
+<a href="https://raw.githubusercontent.com/monero-project/bitmonero/master/utils/gpg_keys/moneromooo.asc">moneromooo's GPG key</a>
+from the Monero source tree:
+</p>
+
+<code>
+gpg --import moneromooo.asc
+</code>
+
+<h3>Checking a standalone signature</h3>
+
+<p>
+You need to get the signature file corresponding to the version of the page you're using.
+Original signature files are
+<a href="https://raw.githubusercontent.com/moneromooo-monero/monero-wallet-generator/master/monero-wallet-generator.html.asc">in the git repository</a>
+as well. Save it as monero-wallet-generator.html.asc, then:
+</p>
+
+<code>
+gpg --verify monero-wallet-generator.html.asc
+</code>
+
+<p>
+You should see a message similar to:
+</p>
+
+<code>
+gpg: Good signature from "moneromooo-monero &lt;moneromooo-monero@users.noreply.github.com&gt;"
+</code>
+
+<p>
+Check the signature is from the key you imported previously! If not, you may be checking
+that file was properly signed by an attacker instead of moneromooo. Beware that anyone can
+place any email address in a new GPG key, so the right email being shown is no guarantee.
+</p>
+
+<p>
+If you want to verify an old version of the file, you will have to retrieve the matching
+signature file from git.
+</p>
+
+<h3>Checking a git commit's signature</h3>
+
+<p>
+If you're using git to get the latest and greatest, it's even simpler:
+</p>
+
+<code>
+git show --show-signature
+</code>
+
+<p>
+You should see a message similar to:
+</p>
+
+<code>
+gpg: Good signature from "moneromooo-monero &lt;moneromooo-monero@users.noreply.github.com&gt;"
+</code>
+
+<p>
+Check the signature is from the key you imported previously! If not, you may be checking
+that file was properly signed by an attacker instead of moneromooo. Beware that anyone can
+place any email address in a new GPG key, so the right email being shown is no guarantee.
+</p>
+
+<hr width="50%">
 
 <script>
 current_lang='english';
