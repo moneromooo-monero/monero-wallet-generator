@@ -10188,7 +10188,9 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K"
 
 <div class="row">&nbsp;</div>
 <div class="row center-align">
-    <h4 style="color: #555;">Offline wallet generator</h4>
+    <div class="col s12">
+        <h4 style="color: #555;">Offline wallet generator</h4>
+    </div>
 </div>
 
 
@@ -10202,19 +10204,20 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K"
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col s4">
-                <input class="btn" type="button" onclick="js:genwallet(null);"
+    <div class="row valign-wrapper">
+        <div class="col s4 right-align ">
+                <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" action=""/>
-            </div>
-        <div class="col s6 offset-s2">
+        </div>
+        <div class="col s1 offset-s1"><h4>or</h4></div>
+        <div class="col s5 offset-s1">
             <form>
-                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
+                <input class="btn deep-orange" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
                 <p>(very slow for more than a few characters, no check for valid prefixes)</p>
                 <input type="text" value="4" id="prefix_widget"/>
             </form>
         </div>
-        </div>
+    </div>
     <div class="row center-align">
         <div class="col s12">
             <form>
@@ -10247,9 +10250,9 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K"
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="card red lighten-4">
-                <div class="card-content red-text text-darken-4">
-                    <span class="card-title red-text text-darken-4">Mnemonic seed</span>
+            <div class="card pink lighten-5">
+                <div class="card-content pink-text text-darken-5">
+                    <span class="card-title pink-text text-darken-5">Mnemonic seed</span>
                     <p>
                         The mnemonic seed is a string that comprises 25 words and allows you to recreate your
                         private keys. <b>Keep it secure!</b>
@@ -10263,9 +10266,9 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K"
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="card deep-orange lighten-5">
-                <div class="card-content deep-orange-text text-darken-4">
-                    <span class="card-title deep-orange-text text-darken-4">Private keys (optional)</span>
+            <div class="card indigo lighten-5">
+                <div class="card-content indigo-text text-darken-4">
+                    <span class="card-title indigo-text text-darken-4">Private keys (optional)</span>
 
                     <p>
                         The spend key and view key are the raw private keys for the
@@ -10294,29 +10297,23 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K"
 
 
 
-<hr width="50%">
-
-<div class="row">
-    <div class="col s12">
-    <p>
-        Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
-        <br>
-        If you found this useful, a donation would be appreciated:
-        <br>
-        <table border="1" cellpadding="4" cellspacing="0"><tr class="public"><td>
-        <font size="-1">4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</font>
-    </td></tr>
-    </table>
-        <br>
-        Thanks, and welcome to Monero!
-        </p>
-    </div>
-</div>
-
-<hr width="50%">
+<div class="row">&nbsp;</div>
+<footer class="page-footer grey lighten-3 grey-text text-darken-4">
+    <div class="container">
         <div class="row">
-            <div class="col s12">
-<h2>How to verify GPG signatures</h2>
+            <div class="col l12">
+                <h5>Credits</h5>
+                <p>
+                    Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
+                    <br>
+                    If you found this useful, a donation would be appreciated:
+                    <br>
+                <pre>4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</pre>
+
+                <br>
+                Thanks, and welcome to Monero!
+                </p>
+<h5>How to verify GPG signatures</h5>
 
 <p>
 All released versions of this page will be GPG signed by moneromooo, to avoid trojaned versions
@@ -10335,7 +10332,7 @@ from the Monero source tree:
 gpg --import moneromooo.asc
 </code>
 
-<h3>Checking a standalone signature</h3>
+<h5>Checking a standalone signature</h5>
 
 <p>
 You need to get the signature file corresponding to the version of the page you're using.
@@ -10367,7 +10364,7 @@ If you want to verify an old version of the file, you will have to retrieve the 
 signature file from git.
 </p>
 
-<h3>Checking a git commit's signature</h3>
+<h5>Checking a git commit's signature</h5>
 
 <p>
 If you're using git to get the latest and greatest, it's even simpler:
@@ -10392,7 +10389,8 @@ place any email address in a new GPG key, so the right email being shown is no g
 </p>
 </div>
             </div>
-<hr width="50%">
+    </div>
+</footer>
 
 <script>
 current_lang='english';
