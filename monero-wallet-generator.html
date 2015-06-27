@@ -10186,110 +10186,136 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K"
     </div>
 </nav>
 
-<h1>Monero offline wallet generator</h1>
+<div class="row">&nbsp;</div>
+<div class="row center-align">
+    <h4 style="color: #555;">Offline wallet generator</h4>
+</div>
 
-<p>
-This page generates a new <a href="http://getmonero.org/">Monero</a> address. It is self contained and does all the
-necessary calculations locally, so is suitable for generating a new wallet on a machine
-that is not connected to the network, and may even never be. This way, you can create
-a Monero wallet without risking the keys.
-</p>
-<p>
-This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
-You can check for up to date versions of this page
-<a href="https://github.com/moneromooo-monero/monero-wallet-generator/blob/master/monero-wallet-generator.html">here</a>.
-</p>
-<p>
-The <strong>public address</strong> is the address you give third parties to send monero to you. It is
-the only information here that's meant to be public.
-</p>
-<p>
-The <strong>view key</strong> and <strong>spend key</strong> are the raw private keys for the new wallet. They are here for
-your information, but can be recovered using the <strong>mnemonic seed</strong>.
-Keep them secure.
-</p>
-<p>
-The <strong>mnemonic seed</strong> is a string that will allow you to recreate the same wallet private
-keys using Monero's simplewallet. If you can only keep a single value, this is the one
-you want as all others can be recreated from it. Keep it secure.
-</p>
+
+    <div class="row">
+        <div class="col s12">
+            <p>
+                This page generates a new <a href="http://getmonero.org/">Monero</a> wallet. It is self contained and
+                does all the necessary calculations locally, so is suitable for generating a new wallet on a machine
+                that is not connected to the network, and may even never be. This way, you can create
+                a Monero wallet without risking the keys.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s4">
+                <input class="btn" type="button" onclick="js:genwallet(null);"
+                       value="Generate wallet" action=""/>
+            </div>
+        <div class="col s6 offset-s2">
+            <form>
+                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
+                <p>(very slow for more than a few characters, no check for valid prefixes)</p>
+                <input type="text" value="4" id="prefix_widget"/>
+            </form>
+        </div>
+        </div>
+    <div class="row center-align">
+        <div class="col s12">
+            <form>
+                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('english');" value="English" action=""/>
+                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/>
+                <!-- portuguese word list has a few prefix collisions
+                      <input type="button" onclick="js:genwallet('portuguese');" value="Portuguese" action=""/>
+                -->
+                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('japanese');" value="Japanese" action=""/>
+                <br>
+                <font size="-1">(restoring non English language seeds needs a recent simplewallet)</font>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card light-green lighten-5">
+                <div class="card-content light-green-text text-darken-4">
+                    <span class="card-title light-green-text text-darken-4">Public address</span>
+
+                    <p>This is the address you give to third parties to send monero to you.
+                        <br><b>It is the only information here that's meant to be public.</b>
+                    </p>
+                </div>
+                <div class="card-action center-align">
+                    <pre class="center-align" id="address_widget">generating...</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card red lighten-4">
+                <div class="card-content red-text text-darken-4">
+                    <span class="card-title red-text text-darken-4">Mnemonic seed</span>
+                    <p>
+                        The mnemonic seed is a string that comprises 25 words and allows you to recreate your
+                        private keys. <b>Keep it secure!</b>
+                    </p>
+                </div>
+                <div class="card-action center-align">
+                    <h5 class="grey-text text-darken-4" id="mnemonic_widget">Generating... </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card deep-orange lighten-5">
+                <div class="card-content deep-orange-text text-darken-4">
+                    <span class="card-title deep-orange-text text-darken-4">Private keys (optional)</span>
+
+                    <p>
+                        The spend key and view key are the raw private keys for the
+                        new wallet.
+                        <b>They are here for your information, since they can be recovered using the mnemonic
+                        seed in the above box</b>.
+                        If you decide to keep them, keep them secure.
+                    </p>
+                    <br>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><pre>Spend key:</pre></td>
+                            <td><pre id="spend_key_widget">Generating...</pre></td>
+                        </tr>
+                        <tr>
+                            <td><pre>View key:</pre></td>
+                            <td><pre id="view_key_widget">Generating...</pre></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 <hr width="50%">
 
-<p>
-This is your new Monero wallet:
-</p>
-<p>
-<table border="1" cellpadding="0" cellspacing="0"><tr><td>
-<table cellpadding="8" cellspacing="0">
-  <tr class="public">
-    <td><strong>Public address</strong></td>
-    <td><font size="-1"><span id="address_widget">generating...</span></font></td>
-  </tr>
-  <tr class="private">
-    <td><strong>Spend key</strong></td>
-    <td><span id="spend_key_widget">generating...</span></td>
-  </tr>
-  <tr class="private">
-    <td><strong>View key</strong></td>
-    <td><span id="view_key_widget">generating...</span></td>
-  </tr>
-  <tr class="private">
-    <td><strong>Mnemonic seed</strong></td>
-    <td><span id="mnemonic_widget">generating...</span></td>
-  </tr>
-</table>
-</td></tr></table>
-</p>
-
-<p>
-  <center>
-    <form><input type="button" onclick="js:genwallet(null);" value="Generate another wallet" action=""/></form>
-  </center>
-</p>
-<p>
-  <center>
-    <form>
-      <input type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
-      <input type="text" value="4" id="prefix_widget"/>
-      <br>
-      <font size="-1">(very slow for more than a few characters, no check for valid prefixes)</font>
-    </form>
-  </center>
-</p>
-<p>
-  <center>
-    <form>
-      <input type="button" onclick="js:genwallet('english');" value="English" action=""/>
-      <input type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/>
-<!-- portuguese word list has a few prefix collisions
-      <input type="button" onclick="js:genwallet('portuguese');" value="Portuguese" action=""/>
--->
-      <input type="button" onclick="js:genwallet('japanese');" value="Japanese" action=""/>
-      <br>
-      <font size="-1">(restoring non English language seeds needs a recent simplewallet)</font>
-    </form>
-  </center>
-</p>
+<div class="row">
+    <div class="col s12">
+    <p>
+        Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
+        <br>
+        If you found this useful, a donation would be appreciated:
+        <br>
+        <table border="1" cellpadding="4" cellspacing="0"><tr class="public"><td>
+        <font size="-1">4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</font>
+    </td></tr>
+    </table>
+        <br>
+        Thanks, and welcome to Monero!
+        </p>
+    </div>
+</div>
 
 <hr width="50%">
-
-<p>
-  Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
-  <br>
-  If you found this useful, a donation would be appreciated:
-  <br>
-  <table border="1" cellpadding="4" cellspacing="0"><tr class="public"><td>
-  <font size="-1">4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</font>
-  </td></tr>
-  </table>
-  <br>
-  Thanks, and welcome to Monero!
-</p>
-
-<hr width="50%">
-
-<a name="gpg-instructions">
+        <div class="row">
+            <div class="col s12">
 <h2>How to verify GPG signatures</h2>
 
 <p>
@@ -10364,7 +10390,8 @@ Check the signature is from the key you imported previously! If not, you may be 
 that file was properly signed by an attacker instead of moneromooo. Beware that anyone can
 place any email address in a new GPG key, so the right email being shown is no guarantee.
 </p>
-
+</div>
+            </div>
 <hr width="50%">
 
 <script>
