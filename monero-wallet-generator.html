@@ -10573,10 +10573,21 @@ function genwallet_prefix()
 function toggle_qr()
 {
   address_qr_widget = document.getElementById("address_qr_widget");
-  if (address_qr_widget.style.display=="block")
+  spend_key_widget = document.getElementById("spend_key_widget");
+  view_key_widget = document.getElementById("view_key_widget");
+  mnemonic_widget = document.getElementById("mnemonic_widget");
+  if (address_qr_widget.style.display=="block") {
     address_qr_widget.style.display="none";
-  else
+    spend_key_widget.style.display = "block";
+    view_key_widget.style.display = "block";
+    mnemonic_widget.style.display = "block";
+  }
+  else {
     address_qr_widget.style.display="block";
+    spend_key_widget.style.display = "none";
+    view_key_widget.style.display = "none";
+    mnemonic_widget.style.display = "none";
+  }
 }
 
 genwallet();
