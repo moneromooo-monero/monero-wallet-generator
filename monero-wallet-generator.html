@@ -10225,8 +10225,8 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         <div class="col s5 offset-s1">
             <form>
                 <input class="btn deep-orange" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
-                <p>(very slow for more than a few characters, no check for valid prefixes)</p>
-                <input type="text" value="4" id="prefix_widget"/>
+                <p>(very slow for more than a few characters)</p>
+                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; />
             </form>
         </div>
     </div>
@@ -10440,7 +10440,9 @@ function genwallet_prefix_worker()
     keys = cnUtil.create_address_if_prefix(seed,prefix);
     if (keys != null) {
       gen_prefix_widget = document.getElementById("gen_prefix_widget");
+      prefix_widget = document.getElementById("prefix_widget");
       gen_prefix_widget.value = previous_button_text;
+      prefix_widget.disabled = false;
       generating = false;
       break;
     }
@@ -10463,13 +10465,50 @@ function genwallet_prefix_worker()
   mnemonic_widget.innerHTML = mnemonic;
 }
 
+var zerohex="0000000000000000000000000000000000000000000000000000000000000000";
+var ffhex="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+var lowest_address=cnUtil.pubkeys_to_string(zerohex,zerohex);
+var highest_address=cnUtil.pubkeys_to_string(ffhex,ffhex);
+
+function is_valid_prefix(prefix)
+{
+  if (prefix.length <= 0 || prefix.length >= 95)
+    return false;
+  var lowest=lowest_address.substr(0,prefix.length);
+  var highest=highest_address.substr(0,prefix.length);
+  if (prefix<lowest)
+    return false;
+  if (prefix>highest)
+    return false;
+  return true;
+}
+
+function check_prefix_validity()
+{
+  gen_prefix_widget = document.getElementById("gen_prefix_widget");
+  prefix_widget = document.getElementById("prefix_widget");
+  if (gen_prefix_widget.value == "STOP")
+    return;
+  prefix=prefix_widget.value;
+  if (is_valid_prefix(prefix)) {
+    gen_prefix_widget.value = "Generate wallet with prefix";
+    gen_prefix_widget.disabled = false;
+  }
+  else {
+    gen_prefix_widget.value = "Invalid prefix";
+    gen_prefix_widget.disabled = true;
+  }
+}
+
 generating = false;
 function genwallet_prefix()
 {
   gen_prefix_widget = document.getElementById("gen_prefix_widget");
+  prefix_widget = document.getElementById("prefix_widget");
   if (generating) {
     generating = false;
     gen_prefix_widget.value = previous_button_text;
+    prefix_widget.disabled = false;
   }
   else {
     prefix_widget = document.getElementById("prefix_widget");
@@ -10479,23 +10518,15 @@ function genwallet_prefix()
       alert("Bad prefix "+prefix+" should start with 4 and be at least one extra character");
       return;
     }
-    /*  Seems to pass strings that don't get found
-    ok = false;
-    try {
-      if (cnBase58.decode(prefix) != "")
-        ok = true;
-    }
-    catch(e) {
-    }
-    if (!ok) {
-      alert("Bad prefix "+prefix+" is not a valid Monero address prefix");
+    if (!is_valid_prefix(prefix)) {
+      alert("Bad prefix "+prefix+" is not a valid address prefix");
       return;
     }
-    */
 
     generating = true;
     previous_button_text = gen_prefix_widget.value;
     gen_prefix_widget.value = "STOP";
+    prefix_widget.disabled = true;
     setTimeout(genwallet_prefix_worker, 0);
   }
 }
