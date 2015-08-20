@@ -10448,7 +10448,7 @@ function genwallet(lang)
     current_lang = lang;
   }
   else {
-    seed = cnUtil.rand_32();
+    seed = cnUtil.sc_reduce32(cnUtil.rand_32());
     keys = cnUtil.create_address(seed);
   }
   mnemonic = mn_encode(seed,current_lang);
@@ -10476,7 +10476,7 @@ function genwallet_prefix_worker()
   attempts = 0;
   while (true) {
     attempts++;
-    seed = cnUtil.rand_32();
+    seed = cnUtil.sc_reduce32(cnUtil.rand_32());
     keys = cnUtil.create_address_if_prefix(seed,prefix);
     if (keys != null) {
       gen_prefix_widget = document.getElementById("gen_prefix_widget");
