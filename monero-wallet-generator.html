@@ -8537,14 +8537,21 @@ return{_strlen:lb,_ge_mul8:Va,_keccak:db,_ge_scalarmult:Ta,_ge_fromfe_frombytes_
 
 
 
-var config = {
+var moneroConfig = {
     coinUnitPlaces: 12,
     coinSymbol: 'XMR',
     coinName: 'Monero',
     coinUriPrefix: 'monero:',
     addressPrefix: 18
 };
-var cnUtil = (function(initConfig) {
+var aeonConfig = {
+    coinUnitPlaces: 12,
+    coinSymbol: 'AEON',
+    coinName: 'Aeon',
+    coinUriPrefix: 'aeon:',
+    addressPrefix: 0xB2
+};
+var cnUtilGen = function(initConfig) {
     //var config = $.extend({}, initConfig);
     var config = initConfig;
     config.coinUnits = new JSBigInt(10).pow(config.coinUnitPlaces);
@@ -8965,7 +8972,8 @@ var cnUtil = (function(initConfig) {
     }
 
     return this;
-})(config);
+};
+var cnUtil = cnUtilGen(moneroConfig);
 /*
  mnemonic.js : Converts between 4-byte aligned strings and a human-readable
  sequence of words. Uses 1626 common words taken from wikipedia article:
@@ -10716,10 +10724,15 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
     <div class="row">
         <div class="col s12">
             <p>
-                This page generates a new <a href="http://getmonero.org/">Monero</a> wallet. It is self contained and
+                This page generates a new
+                <select onchange="js:setCoin(this.selectedIndex);" class="waves-effect waves-light btn" style="max-width: 20%">
+                  <option>Monero</option>
+                  <option>Aeon</option>
+                </select>
+                wallet. It is self contained and
                 does all the necessary calculations locally, so is suitable for generating a new wallet on a machine
                 that is not connected to the network, and may even never be. This way, you can create
-                a Monero wallet without risking the keys. This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
+                a Monero/Aeon wallet without risking the keys. This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
                 You can check for up to date versions of this page
                 <a href="https://github.com/moneromooo-monero/monero-wallet-generator/blob/master/monero-wallet-generator.html">here</a>.
             </p>
@@ -10744,12 +10757,12 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
     <div class="row center-align">
         <div class="col s12">
             <form>
-                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('english');" value="English" action=""/>
-                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/>
+                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('english');" value="English" action=""/ id=lang_en>
+                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/ id=lang_es>
                 <!-- portuguese word list has a few prefix collisions
-                      <input type="button" onclick="js:genwallet('portuguese');" value="Portuguese" action=""/>
+                      <input type="button" onclick="js:genwallet('portuguese');" value="Portuguese" action=""/ id=lang_pt>
                 -->
-                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('japanese');" value="Japanese" action=""/>
+                <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('japanese');" value="Japanese" action=""/ id=lang_jp>
                 <br>
                 <font size="-1">(restoring non English language seeds needs a recent simplewallet)</font>
             </form>
@@ -10762,10 +10775,10 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                     <span class="card-title light-green-text text-darken-4">
                       Public address
                       <input type="button" class="waves-effect waves-light btn" onclick="js:toggle_qr();" value="Show QR code" action=""
-                         style="line-height: 25px; height: 25px; font-size: 60%; padding: 0px 1.5rem;"/>
+                         style="line-height: 25px; height: 25px; font-size: 60%; padding: 0px 1.5rem;"/ id="show_qr_code">
                     </span>
 
-                    <p>This is the address you give to third parties to send monero to you.
+                    <p>This is the address you give to third parties to send aeon/monero to you.
                         <br><b>It is the only information here that's meant to be public.</b>
                     </p>
                 </div>
@@ -10782,7 +10795,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <div class="card-content pink-text text-darken-5">
                     <span class="card-title pink-text text-darken-5">Mnemonic seed</span>
                     <p>
-                        The mnemonic seed is a string that comprises 25 words and allows you to recreate your
+                        The mnemonic seed is a string that comprises 24 (Aeon) or 25 (Monero) words and allows you to recreate your
                         private keys. <b>Keep it secure!</b>
                     </p>
                 </div>
@@ -10838,7 +10851,9 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                     <br>
                     If you found this useful, a donation would be appreciated:
                     <br>
-                <pre>4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</pre>
+                <pre>Monero: 4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</pre>
+                    <br>
+                <pre>Aeon: WmtXcFZj5iGY21JxAtFsJVQmQQyo7jgoJP8V4zLWVzDeeTfvbP8Mzb5gbNpQEc6BkeUYUqjGntHDSDyA6LKjdGBQ1w9iEpfVw</pre>
 
                 <br>
                 Thanks, and welcome to Monero!
@@ -10958,12 +10973,18 @@ function genwallet(lang)
 
   spend_key_widget.innerHTML = keys.spend.sec;
   view_key_widget.innerHTML = keys.view.sec;
-  address_widget.innerHTML = keys.public_addr;
+  address_widget.innerHTML = cnUtil.pubkeys_to_string(keys.spend.pub, keys.view.pub);
   address_qr_widget.innerHTML = "";
   mnemonic_widget.innerHTML = mnemonic;
 
-  qr=new QRCode(address_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
-  qr.makeCode("monero:"+keys.public_addr);
+  // only monero has the URI scheme
+  if (prefix_widget.value == "4") {
+    qr=new QRCode(address_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+    qr.makeCode("monero:"+keys.public_addr);
+  }
+  else {
+    qr = null;
+  }
 }
 
 previous_button_text = "";
@@ -11090,6 +11111,47 @@ function toggle_qr()
     view_key_widget.style.display = "none";
     mnemonic_widget.style.display = "none";
   }
+}
+
+function enableElement(id, enable)
+{
+  var el = document.getElementById(id)
+  if (el) {
+    if (enable)
+      el.disabled = false;
+    else
+      el.disabled = true;
+  }
+}
+
+function enableLanguage(code, enable)
+{
+  enableElement("lang_" + code, enable)
+}
+
+function setCoin(index)
+{
+  var enable
+  var language
+  prefix_widget = document.getElementById("prefix_widget");
+  if (index == 0) {
+    cnUtil = cnUtilGen(moneroConfig);
+    prefix_widget.value = "4";
+    enable = true
+    language = "english"
+  }
+  else if (index == 1) {
+    cnUtil = cnUtilGen(aeonConfig);
+    prefix_widget.value = "W";
+    enable = false
+    language = "electrum"
+  }
+  enableLanguage("en", enable)
+  enableLanguage("es", enable)
+  enableLanguage("pt", enable)
+  enableLanguage("jp", enable)
+  enableElement("show_qr_code", enable)
+  genwallet(language);
 }
 
 genwallet();
