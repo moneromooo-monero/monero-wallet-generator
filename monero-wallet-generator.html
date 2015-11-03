@@ -10502,7 +10502,11 @@ function genwallet_prefix_worker()
   spend_key_widget.innerHTML = keys.spend.sec;
   view_key_widget.innerHTML = keys.view.sec;
   address_widget.innerHTML = keys.public_addr;
+  address_qr_widget.innerHTML = "";
   mnemonic_widget.innerHTML = mnemonic;
+
+  qr=new QRCode(address_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+  qr.makeCode("monero:"+keys.public_addr);
 }
 
 var zerohex="0000000000000000000000000000000000000000000000000000000000000000";
