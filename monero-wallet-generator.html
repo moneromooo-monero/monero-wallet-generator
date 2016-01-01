@@ -8278,6 +8278,8 @@ var cnBase58 = (function () {
         }
         return out.join("");
     }
+    this.bintohex = bintohex;
+    b58.bintohex = bintohex;
 
     function strtobin(str) {
         var res = new Uint8Array(str.length);
@@ -10250,6 +10252,8 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         <div class="col s4 right-align ">
                 <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" action=""/>
+                <p>Custom entropy (leave empty to use PRNG)</p>
+                <input type="text" value="" id="user_entropy_widget" />
         </div>
         <div class="col s1 offset-s1"><h4>or</h4></div>
         <div class="col s5 offset-s1">
@@ -10444,20 +10448,27 @@ current_lang='english';
 keys = null;
 function genwallet(lang)
 {
-  if (lang!=null) {
-    current_lang = lang;
-  }
-  else {
-    seed = cnUtil.sc_reduce32(cnUtil.rand_32());
-    keys = cnUtil.create_address(seed);
-  }
-  mnemonic = mn_encode(seed,current_lang);
-
   spend_key_widget = document.getElementById("spend_key_widget");
   view_key_widget = document.getElementById("view_key_widget");
   address_widget = document.getElementById("address_widget");
   address_qr_widget = document.getElementById("address_qr_widget");
   mnemonic_widget = document.getElementById("mnemonic_widget");
+  user_entropy_widget = document.getElementById("user_entropy_widget")
+
+  if (lang!=null) {
+    current_lang = lang;
+  }
+  else {
+    var user_entropy = user_entropy_widget.value;
+    if (user_entropy === "") {
+      seed = cnUtil.sc_reduce32(cnUtil.rand_32());
+    }
+    else {
+      seed = cnUtil.sc_reduce32(cnUtil.cn_fast_hash(cnBase58.bintohex(user_entropy)));
+    }
+    keys = cnUtil.create_address(seed);
+  }
+  mnemonic = mn_encode(seed,current_lang);
 
   spend_key_widget.innerHTML = keys.spend.sec;
   view_key_widget.innerHTML = keys.view.sec;
