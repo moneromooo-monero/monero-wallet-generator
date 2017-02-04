@@ -8973,7 +8973,6 @@ var cnUtilGen = function(initConfig) {
 
     return this;
 };
-var cnUtil = cnUtilGen(moneroConfig);
 /*
  mnemonic.js : Converts between 4-byte aligned strings and a human-readable
  sequence of words. Uses 1626 common words taken from wikipedia article:
@@ -10725,7 +10724,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         <div class="col s12">
             <p>
                 This page generates a new
-                <select onchange="js:setCoin(this.selectedIndex);" class="waves-effect waves-light btn" style="max-width: 20%">
+                <select id="currencyDropDownList" onchange="js:setCoin(this.selectedIndex);" class="waves-effect waves-light btn" style="max-width: 20%">
                   <option>Monero</option>
                   <option>Aeon</option>
                 </select>
@@ -10938,6 +10937,16 @@ place any email address in a new GPG key, so the right email being shown is no g
 </footer>
 
 <script>
+
+if (document.getElementById("currencyDropDownList").value == "Monero") {
+  var cnUtil = cnUtilGen(moneroConfig);
+  current_lang = 'english';
+}
+else if (document.getElementById("currencyDropDownList").value == "Aeon") {
+  var cnUtil = cnUtilGen(aeonConfig);
+  current_lang = 'electrum';
+}
+
 function poor_mans_kdf(str)
 {
   var hex = cnBase58.bintohex(cnBase58.strtobin(str));
@@ -10945,7 +10954,6 @@ function poor_mans_kdf(str)
     hex = keccak_256(cnBase58.hextobin(hex));
   return hex;
 }
-current_lang='english';
 keys = null;
 function genwallet(lang)
 {
