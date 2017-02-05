@@ -10742,20 +10742,17 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" action=""/>
                 <p>Custom entropy (leave empty to use PRNG)</p>
-                <input type="text" value="" id="user_entropy_widget" />
+                <input type="text" value="" id="user_entropy_widget" onKeyPress="if (event.keyCode == 13) js:genwallet(null);" />
         </div>
         <div class="col s1 offset-s1"><h4>or</h4></div>
         <div class="col s5 offset-s1">
-            <form>
                 <input class="btn deep-orange" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
                 <p>(very slow for more than a few characters)</p>
-                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; />
-            </form>
+                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; onKeyPress="if (event.keyCode == 13) js:genwallet_prefix();" />
         </div>
     </div>
     <div class="row center-align">
         <div class="col s12">
-            <form>
                 <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('english');" value="English" action=""/ id=lang_en>
                 <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/ id=lang_es>
                 <!-- portuguese word list has a few prefix collisions
@@ -10764,7 +10761,6 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('japanese');" value="Japanese" action=""/ id=lang_jp>
                 <br>
                 <font size="-1">(restoring non English language seeds needs a recent simplewallet)</font>
-            </form>
         </div>
     </div>
     <div class="row">
