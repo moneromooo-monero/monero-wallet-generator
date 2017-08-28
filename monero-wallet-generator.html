@@ -10938,6 +10938,9 @@ place any email address in a new GPG key, so the right email being shown is no g
 </footer>
 
 <script>
+window.onbeforeunload = function(e) {
+    return '';
+};
 function poor_mans_kdf(str)
 {
   var hex = cnBase58.bintohex(cnBase58.strtobin(str));
@@ -10949,6 +10952,9 @@ current_lang='english';
 keys = null;
 function genwallet(lang)
 {
+  if(keys && !confirm('Are you sure? This wallet cannot be recovered once a new wallet is generated.')) {
+    return;
+  }
   spend_key_widget = document.getElementById("spend_key_widget");
   view_key_widget = document.getElementById("view_key_widget");
   address_widget = document.getElementById("address_widget");
