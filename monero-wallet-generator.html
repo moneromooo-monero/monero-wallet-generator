@@ -10906,6 +10906,19 @@ place any email address in a new GPG key, so the right email being shown is no g
 </p>
 
 <p>
+NOTE: you will probably also see a warning like this:
+</p>
+
+<code>
+gpg: WARNING: This key is not certified with a trusted signature!
+</code>
+
+<p>
+That is expected, as you only told GPG to import the signature in the steps above, but not
+to trust it. Look for tutorials on GPG if you want to do this, but it is not necessary here.
+</p>
+
+<p>
 If you want to verify an old version of the file, you will have to retrieve the matching
 signature file from git.
 </p>
