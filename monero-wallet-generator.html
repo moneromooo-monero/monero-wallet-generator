@@ -10725,7 +10725,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         <div class="col s12">
             <p>
                 This page generates a new
-                <select onchange="js:setCoin(this.selectedIndex);" class="waves-effect waves-light btn" style="max-width: 20%">
+                <select id="currencyDropDownList" onchange="js:setCoin(this.selectedIndex);genwallet();restore_old_selection_index();" class="waves-effect waves-light btn" style="max-width: 20%">
                   <option>Monero</option>
                   <option>Aeon</option>
                 </select>
@@ -10743,21 +10743,18 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" id="gen_with_custom_entropy_button" action=""/>
                 <p>Custom entropy for deterministic wallet (leave empty to use the browser's PRNG)</p>
-                <input type="text" value="" id="user_entropy_widget" oninput="js:checkEntropy();" />
+                <input type="text" value="" id="user_entropy_widget" oninput="js:checkEntropy();" onKeyPress="if (event.keyCode == 13) js:genwallet(null);" />
                 <div style="color: red; display: none" id="user_entropy_warning_widget">WARNING: entropy is way too low for the wallet to be secure: aim for 256 bits (about a hundred dice throws)</div>
         </div>
         <div class="col s1 offset-s1"><h4>or</h4></div>
         <div class="col s5 offset-s1">
-            <form>
                 <input class="btn deep-orange" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
                 <p>(very slow for more than a few characters)</p>
-                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; />
-            </form>
+                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; onKeyPress="if (event.keyCode == 13) js:genwallet_prefix();" />
         </div>
     </div>
     <div class="row center-align">
         <div class="col s12">
-            <form>
                 <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('english');" value="English" action=""/ id=lang_en>
                 <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('spanish');" value="Spanish" action=""/ id=lang_es>
                 <!-- portuguese word list has a few prefix collisions
@@ -10766,7 +10763,6 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('japanese');" value="Japanese" action=""/ id=lang_jp>
                 <br>
                 <font size="-1">(restoring non English language seeds needs a recent simplewallet)</font>
-            </form>
         </div>
     </div>
     <div class="row">
@@ -10955,6 +10951,35 @@ place any email address in a new GPG key, so the right email being shown is no g
 window.onbeforeunload = function(e) {
     return '';
 };
+
+function set_cnUtil()
+{
+  if (document.getElementById("currencyDropDownList").value == "Monero") {
+    cnUtil = cnUtilGen(moneroConfig);
+    current_lang = 'english';
+  }
+  else if (document.getElementById("currencyDropDownList").value == "Aeon") {
+    cnUtil = cnUtilGen(aeonConfig);
+    current_lang = 'electrum';
+  }
+}
+set_cnUtil();
+
+var oldSelectionIndex = false;
+function restore_old_selection_index()
+{
+  if (oldSelectionIndex && document.getElementById("currencyDropDownList").value == "Monero") {
+    document.getElementById("currencyDropDownList").value = "Aeon";
+    setCoin(1);
+    oldSelectionIndex = false;
+  }
+  else if (oldSelectionIndex && document.getElementById("currencyDropDownList").value == "Aeon") {
+    document.getElementById("currencyDropDownList").value = "Monero";
+    setCoin(0);
+    oldSelectionIndex = false;
+  }
+}
+
 function poor_mans_kdf(str)
 {
   var hex = cnBase58.bintohex(cnBase58.strtobin(str));
@@ -10962,11 +10987,11 @@ function poor_mans_kdf(str)
     hex = keccak_256(cnBase58.hextobin(hex));
   return hex;
 }
-current_lang='english';
 keys = null;
 function genwallet(lang)
 {
   if(keys && !confirm('Are you sure? This wallet cannot be recovered once a new wallet is generated.')) {
+    oldSelectionIndex = true;
     return;
   }
   spend_key_widget = document.getElementById("spend_key_widget");
@@ -11085,6 +11110,9 @@ function check_prefix_validity()
 generating = false;
 function genwallet_prefix()
 {
+  if(keys && !confirm('Are you sure? This wallet cannot be recovered once a new wallet is generated.')) {
+    return;
+  }
   gen_prefix_widget = document.getElementById("gen_prefix_widget");
   prefix_widget = document.getElementById("prefix_widget");
   if (generating) {
@@ -11196,7 +11224,7 @@ function setCoin(index)
   }
   else if (index == 1) {
     cnUtil = cnUtilGen(aeonConfig);
-    prefix_widget.value = "W";
+    prefix_widget.value = "Wm";
     enable = false
     language = "electrum"
   }
@@ -11205,7 +11233,6 @@ function setCoin(index)
   enableLanguage("pt", enable)
   enableLanguage("jp", enable)
   enableElement("show_qr_code", enable)
-  genwallet(language);
 }
 
 genwallet();
