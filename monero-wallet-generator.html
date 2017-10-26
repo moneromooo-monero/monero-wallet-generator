@@ -8973,7 +8973,7 @@ var cnUtilGen = function(initConfig) {
 
     return this;
 };
-var cnUtil = cnUtilGen(moneroConfig);
+
 /*
  mnemonic.js : Converts between 4-byte aligned strings and a human-readable
  sequence of words. Uses 1626 common words taken from wikipedia article:
@@ -10725,7 +10725,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         <div class="col s12">
             <p>
                 This page generates a new
-                <select onchange="js:setCoin(this.selectedIndex);" class="waves-effect waves-light btn" style="max-width: 20%">
+                <select id="currencyDropDownList" onchange="js:setCoin(this.selectedIndex);genwallet();restore_old_selection_index();" class="waves-effect waves-light btn" style="max-width: 20%">
                   <option>Monero</option>
                   <option>Aeon</option>
                 </select>
@@ -10962,11 +10962,11 @@ function poor_mans_kdf(str)
     hex = keccak_256(cnBase58.hextobin(hex));
   return hex;
 }
-current_lang='english';
 keys = null;
 function genwallet(lang)
 {
   if(keys && !confirm('Are you sure? This wallet cannot be recovered once a new wallet is generated.')) {
+    oldSelectionIndex = true;
     return;
   }
   spend_key_widget = document.getElementById("spend_key_widget");
@@ -11085,6 +11085,9 @@ function check_prefix_validity()
 generating = false;
 function genwallet_prefix()
 {
+  if(keys && !confirm('Are you sure? This wallet cannot be recovered once a new wallet is generated.')) {
+    return;
+  }
   gen_prefix_widget = document.getElementById("gen_prefix_widget");
   prefix_widget = document.getElementById("prefix_widget");
   if (generating) {
@@ -11183,31 +11186,47 @@ function enableLanguage(code, enable)
   enableElement("lang_" + code, enable)
 }
 
+var cnUtil;
+var current_lang;
 function setCoin(index)
 {
   var enable
-  var language
   prefix_widget = document.getElementById("prefix_widget");
   if (index == 0) {
     cnUtil = cnUtilGen(moneroConfig);
     prefix_widget.value = "4";
-    enable = true
-    language = "english"
+    enable = true;
+    current_lang = 'english';
   }
   else if (index == 1) {
     cnUtil = cnUtilGen(aeonConfig);
-    prefix_widget.value = "W";
-    enable = false
-    language = "electrum"
+    prefix_widget.value = "Wm";
+    enable = false;
+    current_lang = 'electrum';
   }
   enableLanguage("en", enable)
   enableLanguage("es", enable)
   enableLanguage("pt", enable)
   enableLanguage("jp", enable)
   enableElement("show_qr_code", enable)
-  genwallet(language);
 }
 
+var oldSelectionIndex = false;
+function restore_old_selection_index()
+{
+  if (oldSelectionIndex && document.getElementById("currencyDropDownList").value == "Monero") {
+    document.getElementById("currencyDropDownList").value = "Aeon";
+    setCoin(1);
+    oldSelectionIndex = false;
+  }
+  else if (oldSelectionIndex && document.getElementById("currencyDropDownList").value == "Aeon") {
+    document.getElementById("currencyDropDownList").value = "Monero";
+    setCoin(0);
+    oldSelectionIndex = false;
+  }
+}
+
+setCoin(document.getElementById("currencyDropDownList").selectedIndex);
 genwallet();
 </script>
 
