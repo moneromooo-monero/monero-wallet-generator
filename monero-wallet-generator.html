@@ -10743,7 +10743,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" id="gen_with_custom_entropy_button" action=""/>
                 <p>Custom entropy for deterministic wallet (leave empty to use the browser's PRNG)</p>
-                <input type="text" value="" id="user_entropy_widget" oninput="js:checkEntropy();" />
+                <input type="text" value="" id="user_entropy_widget" oninput="js:checkEntropy();" onKeyPress="if (event.keyCode == 13) js:genwallet(null);" />
                 <div style="color: red; display: none" id="user_entropy_warning_widget">WARNING: entropy is way too low for the wallet to be secure: aim for 256 bits (about a hundred dice throws)</div>
         </div>
         <div class="col s1 offset-s1"><h4>or</h4></div>
@@ -10751,7 +10751,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             <form>
                 <input class="btn deep-orange" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
                 <p>(very slow for more than a few characters)</p>
-                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; />
+                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; onKeyPress="if (event.keyCode == 13){ js:genwallet_prefix(); return false;}" />
             </form>
         </div>
     </div>
