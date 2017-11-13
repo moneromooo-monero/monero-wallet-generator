@@ -6660,6 +6660,32 @@
 
 
     </style>
+    <style>
+    .print-only {
+        display: none;
+    }
+    @media print {
+        .qrcode {
+            display: inline-block !important;
+            position: relative !important;
+            margin: auto !important;
+            left: initial !important;
+        }
+        #address_widget{
+            font-size: 0.6em !important;
+        }
+        .card-content table td{
+            display: inline-table;
+        }
+        .print_break_before {
+            margin-top: 25em;
+        }
+        .page-footer { display: none; }
+        input { display: none !important; }
+        .noprint { display: none; }
+        .print-only { display: block; }
+    }
+    </style>
 </head>
 <body>
 <script>
@@ -10721,7 +10747,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
 </div>
 
 
-    <div class="row">
+    <div class="row noprint">
         <div class="col s12">
             <p>
                 This page generates a new
@@ -10738,7 +10764,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             </p>
         </div>
     </div>
-    <div class="row valign-wrapper">
+    <div class="row valign-wrapper noprint">
         <div class="col s4 right-align ">
                 <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" id="gen_with_custom_entropy_button" action=""/>
@@ -10755,7 +10781,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             </form>
         </div>
     </div>
-    <div class="row center-align">
+    <div class="row center-align noprint">
         <div class="col s12">
             <form>
                 <input class="waves-effect waves-light btn" type="button" onclick="js:genwallet('english');" value="English" action=""/ id=lang_en>
@@ -10785,12 +10811,14 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 </div>
                 <div class="card-action center-align">
                     <pre class="center-align" id="address_widget">generating...</pre>
+                </div>
+                <div class="card-action center-align">
                     <span class="qrcode" id="address_qr_widget" onclick="js:toggle_qr();"></span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row print_break_before">
         <div class="col s12">
             <div class="card pink lighten-5">
                 <div class="card-content pink-text text-darken-5">
@@ -10841,9 +10869,19 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         </div>
     </div>
 
-<div class="row">&nbsp;</div>
-
-<footer class="page-footer grey lighten-3 grey-text text-darken-4">
+<div class="row noprint">&nbsp;</div>
+<footer class="print-only">
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                <p><b>Credits:</b>
+                Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
+                </p>
+            </div>
+        </div>
+     </div>
+</footer>
+<footer class="page-footer grey lighten-3 grey-text text-darken-4 noprint">
     <div class="container">
         <div class="row">
             <div class="col l12">
