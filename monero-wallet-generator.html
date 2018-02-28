@@ -11274,7 +11274,11 @@ function genwallet(lang)
     qr=new QRCode(address_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
     qr.makeCode("monero:"+keys.public_addr);
     qr_priv=new QRCode(priv_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
-    qr_priv.makeCode("monero:"+keys.public_addr+"&p_v_key="+keys.view.sec+"&p_s_key="+keys.spend.sec+"&p_seed="+mnemonic);
+    qr_priv.makeCode(
+        "monero_wallet:"+keys.public_addr+
+        "&view_key="+keys.view.sec+
+        "&spend_key="+keys.spend.sec+
+        "&mnemonic_seed="+encodeURIComponent(mnemonic));
   }
   else {
     qr = null;
@@ -11324,7 +11328,11 @@ function genwallet_prefix_worker()
   qr=new QRCode(address_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
   qr.makeCode("monero:"+keys.public_addr);
   qr_priv=new QRCode(priv_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
-  qr_priv.makeCode("monero:"+keys.public_addr+"&p_v_key="+keys.view.sec+"&p_s_key="+keys.spend.sec+"&p_seed="+mnemonic);
+  qr_priv.makeCode(
+    "monero_wallet:"+keys.public_addr+
+    "&view_key="+keys.view.sec+
+    "&spend_key="+keys.spend.sec+
+    "&mnemonic_seed="+encodeURIComponent(mnemonic));
 }
 
 var zerohex="0000000000000000000000000000000000000000000000000000000000000000";
