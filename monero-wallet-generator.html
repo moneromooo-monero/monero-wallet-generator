@@ -10741,10 +10741,15 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
     </div>
 </nav>
 
-<div class="row">&nbsp;</div>
-<div class="row center-align">
+<div class="row noprint">&nbsp;</div>
+<div class="row center-align noprint">
     <div class="col s12">
         <h4 style="color: #555;">Offline wallet generator</h4>
+    </div>
+</div>
+<div class="row center-align print-only">
+    <div class="col s12">
+        <h4 style="color: #555;">Offline wallet</h4>
     </div>
 </div>
 
@@ -10807,7 +10812,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                          style="line-height: 25px; height: 25px; font-size: 60%; padding: 0px 1.5rem;"/ id="show_qr_code">
                     </span>
 
-                    <p>This is the address you give to third parties to send aeon/monero to you.
+                    <p class="noprint">This is the address you give to third parties to send aeon/monero to you.
                         <br><b>It is the only information here that's meant to be public.</b>
                     </p>
                 </div>
@@ -10824,11 +10829,11 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         <div class="col s12">
             <div class="card pink lighten-5">
                 <div class="card-content pink-text text-darken-5">
-                    <span class="card-title pink-text text-darken-5">Mnemonic seed
+                    <span class="card-title pink-text text-darken-5">Private Mnemonic seed
                      <input type="button" class="waves-effect waves-light btn" onclick="js:toggle_priv_qr();" value="Show QR code" action=""
                          style="line-height: 25px; height: 25px; font-size: 60%; padding: 0px 1.5rem;"/ id="show_priv_qr_code"></span>
                     </span>
-                    <p>
+                    <p class="noprint">
                         The mnemonic seed is a string that comprises 24 (Aeon) or 25 (Monero) words and allows you to recreate your
                         private keys. <b>Keep it secure!</b>
                     </p>
@@ -10846,7 +10851,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <div class="card-content indigo-text text-darken-4">
                     <span class="card-title indigo-text text-darken-4">Private keys (optional)</span>
 
-                    <p>
+                    <p class="noprint">
                         The spend key and view key are the raw private keys for the
                         new wallet.
                         <b>They are here for your information, since they can be recovered using the mnemonic
