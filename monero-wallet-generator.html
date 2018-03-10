@@ -10750,6 +10750,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
 <div class="row center-align print-only">
     <div class="col s12">
         <h4 style="color: #555;">Offline wallet</h4>
+        <p id="date"></p>
     </div>
 </div>
 
@@ -11024,6 +11025,9 @@ function genwallet(lang)
   priv_qr_widget = document.getElementById("priv_qr_widget");
   mnemonic_widget = document.getElementById("mnemonic_widget");
   user_entropy_widget = document.getElementById("user_entropy_widget")
+  date_widget = document.getElementById("date")
+
+  date_widget.innerHTML = new Date().toISOString();
 
   if (lang!=null) {
     current_lang = lang;
