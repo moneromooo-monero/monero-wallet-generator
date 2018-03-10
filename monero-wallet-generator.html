@@ -11058,7 +11058,7 @@ function genwallet(lang)
     qr_priv=new QRCode(priv_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
     qr_priv.makeCode(
         "monero_wallet:"+keys.public_addr+
-        "&view_key="+keys.view.sec+
+        "?view_key="+keys.view.sec+
         "&spend_key="+keys.spend.sec+
         "&mnemonic_seed="+encodeURIComponent(mnemonic));
   }
@@ -11112,7 +11112,7 @@ function genwallet_prefix_worker()
   qr_priv=new QRCode(priv_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
   qr_priv.makeCode(
     "monero_wallet:"+keys.public_addr+
-    "&view_key="+keys.view.sec+
+    "?view_key="+keys.view.sec+
     "&spend_key="+keys.spend.sec+
     "&mnemonic_seed="+encodeURIComponent(mnemonic));
 }
