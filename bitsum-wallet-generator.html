@@ -90,11 +90,11 @@
  */
 
 /* Wallet generator modifications: Copyright 2015 moneromooo */
-
+/* Modifications for Bitsum: Copyright 2018 sadm */
 -->
 
 <head>
-  <title>Monero offline wallet generator</title>
+  <title>Bitsum offline wallet generator</title>
   <meta charset="UTF-8">
     <style type="text/css">
         html {
@@ -3835,7 +3835,7 @@
 
         nav {
             color: #fff;
-            background-color: #ee6e73;
+            background-color: #3b5ca3;
             width: 100%;
             height: 56px;
             line-height: 56px;
@@ -8537,19 +8537,12 @@ return{_strlen:lb,_ge_mul8:Va,_keccak:db,_ge_scalarmult:Ta,_ge_fromfe_frombytes_
 
 
 
-var moneroConfig = {
-    coinUnitPlaces: 12,
-    coinSymbol: 'XMR',
-    coinName: 'Monero',
-    coinUriPrefix: 'monero:',
-    addressPrefix: 18
-};
-var aeonConfig = {
-    coinUnitPlaces: 12,
-    coinSymbol: 'AEON',
-    coinName: 'Aeon',
-    coinUriPrefix: 'aeon:',
-    addressPrefix: 0xB2
+var bitsumConfig = {
+    coinUnitPlaces: 10,
+    coinSymbol: 'SUM',
+    coinName: 'Bitsum',
+    coinUriPrefix: 'bitsum:',
+    addressPrefix: 154
 };
 var cnUtilGen = function(initConfig) {
     //var config = $.extend({}, initConfig);
@@ -8973,7 +8966,7 @@ var cnUtilGen = function(initConfig) {
 
     return this;
 };
-var cnUtil = cnUtilGen(moneroConfig);
+var cnUtil = cnUtilGen(bitsumConfig);
 /*
  mnemonic.js : Converts between 4-byte aligned strings and a human-readable
  sequence of words. Uses 1626 common words taken from wikipedia article:
@@ -10656,58 +10649,10 @@ html { font-family: sans-serif }
 }
 </style>
 
-<nav class="grey lighten-3">
+<nav class="lighten-3">
     <div class="nav-wrapper">
         <a href="#" class="brand-logo center">
-            <img style="height:60px;" src="data:image/svg+xml;base64,
-PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFk
-b2JlIElsbHVzdHJhdG9yIDE4LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246
-IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZH
-IDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5k
-dGQiPgo8c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3Zn
-IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIw
-cHgiCgkgdmlld0JveD0iMTM1LjIgMjY3LjUgMzE1IDEwOS41IiBlbmFibGUtYmFja2dyb3VuZD0i
-bmV3IDEzNS4yIDI2Ny41IDMxNSAxMDkuNSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnIGlkPSJH
-dWlkZXNfRm9yX0FydGJvYXJkIj4KPC9nPgo8ZyBpZD0iTGF5ZXJfMSI+Cgk8cGF0aCBpZD0iXzE0
-OTkzMTAzMl8yXyIgZmlsbD0iI0ZGNjYwMCIgZD0iTTE5Mi40LDI4Ni44Yy0yMC40LDAtMzYuOSwx
-Ni41LTM2LjksMzYuOWMwLDQuMSwwLjcsOCwxLjksMTEuN2gxMXYtMzFsMjQsMjRsMjQtMjR2MzEK
-CQloMTFjMS4yLTMuNywxLjktNy42LDEuOS0xMS43QzIyOS4zLDMwMy4zLDIxMi44LDI4Ni44LDE5
-Mi40LDI4Ni44TDE5Mi40LDI4Ni44eiIvPgoJPHBhdGggaWQ9Il8xNDk5MzExNjBfMl8iIGZpbGw9
-IiM0QzRDNEMiIGQ9Ik0xODYuOSwzMzMuOGwtMTAuNS0xMC41djE5LjVoLTRoLTRoLTcuNWM2LjUs
-MTAuNiwxOC4yLDE3LjcsMzEuNSwxNy43CgkJczI1LjEtNy4xLDMxLjUtMTcuN2gtNy41aC03LjJo
-LTAuOHYtMTkuNUwxOTgsMzMzLjhsLTUuNSw1LjVMMTg2LjksMzMzLjhMMTg2LjksMzMzLjh6Ii8+
-Cgk8cGF0aCBmaWxsPSIjNEM0QzRDIiBkPSJNNDMxLjksMzE1LjNjLTMuMS0zLjItNi45LTQuNy0x
-MS4yLTQuN2MtMi45LDAtNS42LDAuNy04LDIuMmMtMi41LDEuNC00LjUsMy40LTUuOSw1LjkKCQlj
-LTEuNCwyLjUtMi4xLDUuMi0yLjEsOC4xYzAsNC40LDEuNSw4LjIsNC42LDExLjRjMy4xLDMuMiw2
-LjksNC44LDExLjUsNC44YzQuNCwwLDguMi0xLjYsMTEuMy00LjdjMy4xLTMuMSw0LjYtNi45LDQu
-Ni0xMS40CgkJQzQzNi42LDMyMi4zLDQzNS4xLDMxOC40LDQzMS45LDMxNS4zeiBNNDI3LjgsMzM0
-LjJjLTIsMi00LjMsMy03LjEsM2MtMi41LDAtNC42LTAuOC02LjUtMi4zYy0yLjQtMi0zLjctNC43
-LTMuNy04LjEKCQljMC0zLjEsMS01LjYsMi45LTcuNmMxLjktMiw0LjMtMyw3LjItM2MyLjgsMCw1
-LjIsMSw3LjIsM2MyLDIsMyw0LjUsMyw3LjRDNDMwLjgsMzI5LjcsNDI5LjgsMzMyLjIsNDI3Ljgs
-MzM0LjJ6Ii8+Cgk8cGF0aCBmaWxsPSIjNEM0QzRDIiBkPSJNMzk0LjQsMzI4LjVjMi0wLjcsMy42
-LTEuOCw0LjYtMy4yYzEtMS40LDEuNS0zLjIsMS41LTUuM2MwLTItMC41LTMuOC0xLjQtNS4zYy0w
-LjktMS41LTIuMS0yLjUtMy43LTMuMgoJCXMtNC4xLTEtNy42LTFoLTExLjN2MzIuM2g2LjJ2LTEz
-LjdoNS40bDcuMywxMy43aDYuN0wzOTQuNCwzMjguNXogTTM5My40LDMyMi40Yy0wLjcsMC41LTEu
-MSwwLjgtMy4xLDAuOGgtNy43di02LjZoNy41CgkJYzEuNSwwLDEuOCwwLjEsMi40LDAuM2MwLjYs
-MC4yLDEuMSwwLjYsMS41LDEuMWMwLjQsMC41LDAuNSwxLjEsMC41LDEuOEMzOTQuNSwzMjEuMSwz
-OTQuMiwzMjEuOSwzOTMuNCwzMjIuNHoiLz4KCTxwb2x5Z29uIGZpbGw9IiM0QzRDNEMiIHBvaW50
-cz0iMzQ4LjksMzEwLjYgMzY5LjksMzEwLjYgMzY5LjksMzE2LjYgMzU1LDMxNi42IDM1NSwzMjMu
-MiAzNjkuOSwzMjMuMiAzNjkuOSwzMjkuMSAzNTUsMzI5LjEgCgkJMzU1LDMzNi44IDM2OS45LDMz
-Ni44IDM2OS45LDM0Mi45IDM0OC45LDM0Mi45IDM0OC45LDMxMC42IAkiLz4KCTxwb2x5Z29uIGZp
-bGw9IiM0QzRDNEMiIHBvaW50cz0iMzE2LjQsMzEwLjYgMzIyLjMsMzEwLjYgMzM2LjIsMzMxLjgg
-MzM2LjIsMzEwLjYgMzQyLjMsMzEwLjYgMzQyLjMsMzQyLjkgMzM2LjQsMzQyLjkgCgkJMzIyLjYs
-MzIxLjcgMzIyLjYsMzQyLjkgMzE2LjQsMzQyLjkgCSIvPgoJPHBhdGggZmlsbD0iIzRDNEM0QyIg
-ZD0iTTMwNi45LDMxNS4zYy0zLjEtMy4xLTYuOS00LjctMTEuMi00LjdjLTIuOSwwLTUuNSwwLjct
-OCwyLjJjLTIuNSwxLjQtNC40LDMuNC01LjksNS45CgkJYy0xLjQsMi41LTIuMSw1LjItMi4xLDgu
-MWMwLDQuNCwxLjUsOC4yLDQuNiwxMS40YzMsMy4yLDYuOSw0LjgsMTEuNSw0LjhjNC40LDAsOC4x
-LTEuNSwxMS4yLTQuN2MzLjEtMy4xLDQuNi02LjksNC42LTExLjQKCQlDMzExLjUsMzIyLjMsMzEw
-LDMxOC40LDMwNi45LDMxNS4zeiBNMzAyLjgsMzM0LjFjLTEuOSwyLTQuMywzLTcuMSwzYy0yLjUs
-MC00LjYtMC44LTYuNS0yLjNjLTIuNC0yLTMuNy00LjctMy43LTguMQoJCWMwLTMsMS01LjYsMi45
-LTcuNWMxLjktMiw0LjMtMyw3LjItM2MyLjgsMCw1LjIsMSw3LjIsM2MyLDIsMyw0LjUsMyw3LjRD
-MzA1LjcsMzI5LjcsMzA0LjcsMzMyLjEsMzAyLjgsMzM0LjF6Ii8+Cgk8cGF0aCBpZD0iXzc0NzQ5
-MDg4XzJfIiBmaWxsPSIjNEM0QzRDIiBkPSJNMjQ0LjgsMzEwLjZoNmw3LjUsMjIuNmw3LjYtMjIu
-Nmg1LjlsNS40LDMyLjNoLTUuOWwtMy41LTIwLjRsLTYuOSwyMC40aC01LjRsLTYuOC0yMC40CgkJ
-bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
+            <img style="height:60px;" src="data:image/png;base64,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">
         </a>
 
     </div>
@@ -10724,17 +10669,10 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
     <div class="row">
         <div class="col s12">
             <p>
-                This page generates a new
-                <select onchange="js:setCoin(this.selectedIndex);" class="waves-effect waves-light btn" style="max-width: 20%">
-                  <option>Monero</option>
-                  <option>Aeon</option>
-                </select>
-                wallet. It is self contained and
+                This page generates a new Bitsum wallet. It is self contained and
                 does all the necessary calculations locally, so is suitable for generating a new wallet on a machine
                 that is not connected to the network, and may even never be. This way, you can create
-                a Monero/Aeon wallet without risking the keys. This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
-                You can check for up to date versions of this page
-                <a href="https://github.com/moneromooo-monero/monero-wallet-generator/blob/master/monero-wallet-generator.html">here</a>.
+                a Bitsum wallet without risking the keys.
             </p>
         </div>
     </div>
@@ -10751,7 +10689,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             <form>
                 <input class="btn deep-orange" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
                 <p>(very slow for more than a few characters)</p>
-                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; />
+                <input type="text" value="Sm" id="prefix_widget" oninput="js:check_prefix_validity()"; />
             </form>
         </div>
     </div>
@@ -10796,7 +10734,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <div class="card-content pink-text text-darken-5">
                     <span class="card-title pink-text text-darken-5">Mnemonic seed</span>
                     <p>
-                        The mnemonic seed is a string that comprises 24 (Aeon) or 25 (Monero) words and allows you to recreate your
+                        The mnemonic seed is a string that comprises 25 words and allows you to recreate your
                         private keys. <b>Keep it secure!</b>
                     </p>
                 </div>
@@ -10810,7 +10748,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
         <div class="col s12">
             <div class="card indigo lighten-5">
                 <div class="card-content indigo-text text-darken-4">
-                    <span class="card-title indigo-text text-darken-4">Private keys (optional)</span>
+                    <span class="card-title indigo-text text-darken-4">Private keys</span>
 
                     <p>
                         The spend key and view key are the raw private keys for the
@@ -10846,106 +10784,18 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             <div class="col l12">
                 <h5>Credits</h5>
                 <p>
-                    Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
+                    Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>, modified for Bitsum. Copyright notices in the source.
                     <br>
                     Thanks to antanst for the CSS, and to luigi1111 for crypto fixes and improvements.
                     <br>
                     If you found this useful, a donation would be appreciated:
                     <br>
-                <pre>Monero: 4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</pre>
-                    <br>
-                <pre>Aeon: WmtXcFZj5iGY21JxAtFsJVQmQQyo7jgoJP8V4zLWVzDeeTfvbP8Mzb5gbNpQEc6BkeUYUqjGntHDSDyA6LKjdGBQ1w9iEpfVw</pre>
+                <pre>Bitsum: Sm4Psp2PJmgHSRNjimepPTch8bZ486Q5ZHFMuVEvaBKCeoVYi3To26LM1RJcfoVVMh7qJTbXmkR98Ya2UgRsjAB81LaByNT5q</pre>
 
                 <br>
-                Thanks, and welcome to Monero!
+                Thanks, and welcome to Bitsum!
                 </p>
-<h5 id="gpg-instructions">How to verify GPG signatures</h5>
 
-<p>
-All released versions of this page will be GPG signed by moneromooo, to avoid trojaned versions
-being passed around. It is in your interest to check the signature.
-</p>
-<p>
-This page is maintained as a
-<a href="https://github.com/moneromooo-monero/monero-wallet-generator/">git repository</a>.
-All commits are signed. In addition, released versions of the page are signed separately.
-In order to check either, you first need to import
-<a href="https://raw.githubusercontent.com/monero-project/bitmonero/master/utils/gpg_keys/moneromooo.asc">moneromooo's GPG key</a>
-from the Monero source tree:
-</p>
-
-<code>
-gpg --import moneromooo.asc
-</code>
-
-<h5>Checking a standalone signature</h5>
-
-<p>
-You need to get the signature file corresponding to the version of the page you're using.
-Original signature files are
-<a href="https://raw.githubusercontent.com/moneromooo-monero/monero-wallet-generator/master/monero-wallet-generator.html.asc">in the git repository</a>
-as well. Save it as monero-wallet-generator.html.asc, then:
-</p>
-
-<code>
-gpg --verify monero-wallet-generator.html.asc
-</code>
-
-<p>
-You should see a message similar to:
-</p>
-
-<code>
-gpg: Good signature from "moneromooo-monero &lt;moneromooo-monero@users.noreply.github.com&gt;"
-</code>
-
-<p>
-Check the signature is from the key you imported previously! If not, you may be checking
-that file was properly signed by an attacker instead of moneromooo. Beware that anyone can
-place any email address in a new GPG key, so the right email being shown is no guarantee.
-</p>
-
-<p>
-NOTE: you will probably also see a warning like this:
-</p>
-
-<code>
-gpg: WARNING: This key is not certified with a trusted signature!
-</code>
-
-<p>
-That is expected, as you only told GPG to import the signature in the steps above, but not
-to trust it. Look for tutorials on GPG if you want to do this, but it is not necessary here.
-</p>
-
-<p>
-If you want to verify an old version of the file, you will have to retrieve the matching
-signature file from git.
-</p>
-
-<h5>Checking a git commit's signature</h5>
-
-<p>
-If you're using git to get the latest and greatest, it's even simpler:
-</p>
-
-<code>
-git show --show-signature
-</code>
-
-<p>
-You should see a message similar to:
-</p>
-
-<code>
-gpg: Good signature from "moneromooo-monero &lt;moneromooo-monero@users.noreply.github.com&gt;"
-</code>
-
-<p>
-Check the signature is from the key you imported previously! If not, you may be checking
-that file was properly signed by an attacker instead of moneromooo. Beware that anyone can
-place any email address in a new GPG key, so the right email being shown is no guarantee.
-</p>
 </div>
             </div>
     </div>
