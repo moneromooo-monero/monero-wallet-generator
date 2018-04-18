@@ -6655,6 +6655,12 @@
         .slider .indicators .indicator-item.active {
             background-color: #4CAF50;
         }
+        .btn-qr {
+            line-height: 25px;
+            height: 25px;
+            font-size: 60%;
+            padding: 0px 1.5rem;
+        }
 
 
 
@@ -11036,8 +11042,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <div class="card-content light-green-text text-darken-4">
                     <span class="card-title light-green-text text-darken-4">
                       Public address
-                      <input type="button" class="waves-effect waves-light btn" onclick="js:toggle_qr();" value="Show QR code" action=""
-                         style="line-height: 25px; height: 25px; font-size: 60%; padding: 0px 1.5rem;"/ id="show_qr_code">
+                      <input type="button" class="waves-effect waves-light btn btn-qr" onclick="js:toggle_address_qr();" value="Show QR code" action=""id="show_qr_code"/>
                     </span>
 
                     <p class="noprint">This is the address you give to third parties to send aeon/monero to you.
@@ -11058,8 +11063,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             <div class="card pink lighten-5">
                 <div class="card-content pink-text text-darken-5">
                     <span class="card-title pink-text text-darken-5">Private Mnemonic seed
-                     <input type="button" class="waves-effect waves-light btn" onclick="js:toggle_priv_qr();" value="Show QR code" action=""
-                         style="line-height: 25px; height: 25px; font-size: 60%; padding: 0px 1.5rem;"/ id="show_priv_qr_code"></span>
+                     <input type="button" class="waves-effect waves-light btn btn-qr" onclick="js:toggle_priv_mnemonic_qr();" value="Show QR code" action="" id="show_priv_mnemonic_qr_code"/>
                     </span>
                     <p class="noprint">
                         The mnemonic seed is a string that comprises 25 words and allows you to recreate your
