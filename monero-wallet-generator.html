@@ -6661,7 +6661,11 @@
             font-size: 60%;
             padding: 0px 1.5rem;
         }
-
+        #address_widget, #spend_key_widget, #view_key_widget,
+        #mnemonic_address, #privatekeys_address {
+            font-family: monospace;
+            overflow-wrap: break-word;
+        }
 
 
     </style>
@@ -6676,8 +6680,11 @@
             margin: auto !important;
             left: initial !important;
         }
-        #address_widget{
-            font-size: 0.6em !important;
+        #address_widget, #spend_key_widget, #view_key_widget {
+            font-size: 1.2em !important;
+        }
+        #mnemonic_address, #privatekeys_address {
+            font-size: 0.7em !important;
         }
         .card-content table td{
             display: inline-table;
@@ -10831,6 +10838,13 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             </div>
         </div>
     </div>
+    <div class="row print-only">
+        <div class="col l12">
+            <p><b>Credits:</b>
+            Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
+            </p>
+        </div>
+    </div>
     <div class="row print_break_before">
         <div class="col s12">
             <div class="card pink lighten-5">
@@ -10899,17 +10913,6 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
     </div>
 
 <div class="row noprint">&nbsp;</div>
-<footer class="print-only">
-    <div class="container">
-        <div class="row">
-            <div class="col l12">
-                <p><b>Credits:</b>
-                Made by moneromooo, based on code from <a href="https://mymonero.com/">MyMonero</a>. Copyright notices in the source.
-                </p>
-            </div>
-        </div>
-     </div>
-</footer>
 <footer class="page-footer grey lighten-3 grey-text text-darken-4 noprint">
     <div class="container">
         <div class="row">
