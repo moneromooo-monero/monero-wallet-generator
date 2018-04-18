@@ -11050,10 +11050,10 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                     </p>
                 </div>
                 <div class="card-action center-align">
-                    <pre class="center-align" id="address_widget">generating...</pre>
+                    <span class="center-align" id="address_widget">generating...</span>
                 </div>
                 <div class="card-action center-align">
-                    <span class="qrcode" id="address_qr_widget" onclick="js:toggle_qr();"></span>
+                    <span class="qrcode" id="address_qr_widget" onclick="js:toggle_address_qr();"></span>
                 </div>
             </div>
         </div>
@@ -11069,19 +11069,20 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                         The mnemonic seed is a string that comprises 25 words and allows you to recreate your
                         private keys. <b>Keep it secure!</b>
                     </p>
+                    <p class="print-only" id="mnemonic_address">Generating...</p>
                 </div>
                 <div class="card-action center-align">
                     <h5 class="grey-text text-darken-4" id="mnemonic_widget">Generating... </h5>
-                    <span class="qrcode" id="priv_qr_widget" onclick="js:toggle_priv_qr();"></span>
+                    <span class="qrcode" id="priv_mnemonic_qr_widget" onclick="js:toggle_priv_mnemonic_qr();"></span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row print_break_before">
         <div class="col s12">
             <div class="card indigo lighten-5">
                 <div class="card-content indigo-text text-darken-4">
-                    <span class="card-title indigo-text text-darken-4">Private keys (optional)</span>
+                    <span class="card-title indigo-text text-darken-4">Private keys <span class="noprint">(optional)</span></span>
 
                     <p class="noprint">
                         The spend key and view key are the raw private keys for the
@@ -11090,19 +11091,35 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                         seed in the above box</b>.
                         If you decide to keep them, keep them secure.
                     </p>
-                    <br>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td><pre>Spend key:</pre></td>
-                            <td><pre id="spend_key_widget">Generating...</pre></td>
-                        </tr>
-                        <tr>
-                            <td><pre>View key:</pre></td>
-                            <td><pre id="view_key_widget">Generating...</pre></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <p class="print-only" id="privatekeys_address">Generating...</p>
+                </div>
+                <div class="card-action center-align">
+                    <div class="row">
+                        <div class="col s3">
+                            <span class="label">Spend key:</span>
+                        </div>
+                        <div class="col s9">
+                            <span id="spend_key_widget">Generating...</span>
+                            <span class="qrcode" id="priv_spend_qr_widget" onclick="js:toggle_priv_spend_qr();"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s3">
+                            <span class="label">View key:</span>
+                        </div>
+                        <div class="col s9">
+                            <span id="view_key_widget">Generating...</span>
+                            <span class="qrcode" id="priv_view_qr_widget" onclick="js:toggle_priv_view_qr();"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <input type="button" class="waves-effect waves-light btn btn-qr" onclick="js:toggle_priv_spend_qr();" value="Show Spend Key as QR code" action="" id="show_priv_spend_qr_code"/>
+                        </div>
+                        <div class="col s6">
+                            <input type="button" class="waves-effect waves-light btn btn-qr" onclick="js:toggle_priv_view_qr();" value="Show View Key as QR code" action="" id="show_priv_view_qr_code"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -11255,12 +11272,17 @@ function genwallet(lang)
   view_key_widget = document.getElementById("view_key_widget");
   address_widget = document.getElementById("address_widget");
   address_qr_widget = document.getElementById("address_qr_widget");
-  priv_qr_widget = document.getElementById("priv_qr_widget");
+  priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
+  priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
+  priv_view_qr_widget = document.getElementById("priv_view_qr_widget");
+  privatekeys_address = document.getElementById("privatekeys_address");
   mnemonic_widget = document.getElementById("mnemonic_widget");
+  mnemonic_address = document.getElementById("mnemonic_address");
   user_entropy_widget = document.getElementById("user_entropy_widget")
-  date_widget = document.getElementById("date")
+  date_widget = document.getElementById("date");
 
   date_widget.innerHTML = new Date().toISOString();
+  iso_date = new Date().toISOString().substr(0, 10);
 
   if (lang!=null) {
     current_lang = lang;
@@ -11280,24 +11302,39 @@ function genwallet(lang)
   spend_key_widget.innerHTML = keys.spend.sec;
   view_key_widget.innerHTML = keys.view.sec;
   address_widget.innerHTML = cnUtil.pubkeys_to_string(keys.spend.pub, keys.view.pub);
+  mnemonic_address.innerHTML = address_widget.innerHTML;
+  privatekeys_address.innerHTML = address_widget.innerHTML;
   address_qr_widget.innerHTML = "";
-  priv_qr_widget.innerHTML = "";
+  priv_mnemonic_qr_widget.innerHTML = "";
+  priv_spend_qr_widget.innerHTML = "";
+  priv_view_qr_widget.innerHTML = "";
   mnemonic_widget.innerHTML = mnemonic;
 
   // only monero has the URI scheme
   if (prefix_widget.value == "4") {
     qr=new QRCode(address_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
     qr.makeCode("monero:"+keys.public_addr);
-    qr_priv=new QRCode(priv_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
-    qr_priv.makeCode(
+    qr_priv_mnemonic=new QRCode(priv_mnemonic_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+    qr_priv_mnemonic.makeCode(
+        "monero_wallet:"+keys.public_addr+
+        "?mnemonic_seed="+encodeURIComponent(mnemonic)+
+        "&iso_date="+iso_date);
+    qr_priv_spend=new QRCode(priv_spend_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+    qr_priv_spend.makeCode(
+        "monero_wallet:"+keys.public_addr+
+        "?spend_key="+keys.spend.sec+
+        "&iso_date="+iso_date);
+    qr_priv_view=new QRCode(priv_view_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+    qr_priv_view.makeCode(
         "monero_wallet:"+keys.public_addr+
         "?view_key="+keys.view.sec+
-        "&spend_key="+keys.spend.sec+
-        "&mnemonic_seed="+encodeURIComponent(mnemonic));
+        "&iso_date="+iso_date);
   }
   else {
     qr = null;
-    qr_priv = null;
+    qr_priv_mnemonic = null;
+    qr_priv_spend = null;
+    qr_priv_view = null;
   }
 }
 
@@ -11330,24 +11367,45 @@ function genwallet_prefix_worker()
   view_key_widget = document.getElementById("view_key_widget");
   address_widget = document.getElementById("address_widget");
   address_qr_widget = document.getElementById("address_qr_widget");
-  priv_qr_widget = document.getElementById("priv_qr_widget");
+  priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
+  priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
+  priv_view_qr_widget = document.getElementById("priv_view_qr_widget");
+  privatekeys_address = document.getElementById("privatekeys_address");
   mnemonic_widget = document.getElementById("mnemonic_widget");
+  mnemonic_address = document.getElementById("mnemonic_address");
+  date_widget = document.getElementById("date");
+
+  date_widget.innerHTML = new Date().toISOString();
+  iso_date = new Date().toISOString().substr(0, 10);
 
   spend_key_widget.innerHTML = keys.spend.sec;
   view_key_widget.innerHTML = keys.view.sec;
   address_widget.innerHTML = keys.public_addr;
+  mnemonic_address.innerHTML = address_widget.innerHTML;
+  privatekeys_address.innerHTML = address_widget.innerHTML;
   address_qr_widget.innerHTML = "";
-  priv_qr_widget.innerHTML = "";
+  priv_mnemonic_qr_widget.innerHTML = "";
+  priv_spend_qr_widget.innerHTML = "";
+  priv_view_qr_widget.innerHTML = "";
   mnemonic_widget.innerHTML = mnemonic;
 
   qr=new QRCode(address_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
   qr.makeCode("monero:"+keys.public_addr);
-  qr_priv=new QRCode(priv_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
-  qr_priv.makeCode(
+  qr_priv_mnemonic=new QRCode(priv_mnemonic_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+  qr_priv_mnemonic.makeCode(
+    "monero_wallet:"+keys.public_addr+
+    "?mnemonic_seed="+encodeURIComponent(mnemonic)+
+    "&iso_date="+iso_date);
+  qr_priv_spend=new QRCode(priv_spend_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+  qr_priv_spend.makeCode(
+    "monero_wallet:"+keys.public_addr+
+    "?spend_key="+keys.spend.sec+
+    "&iso_date="+iso_date);
+  qr_priv_view=new QRCode(priv_view_qr_widget, {correctLevel:QRCode.CorrectLevel.L});
+  qr_priv_view.makeCode(
     "monero_wallet:"+keys.public_addr+
     "?view_key="+keys.view.sec+
-    "&spend_key="+keys.spend.sec+
-    "&mnemonic_seed="+encodeURIComponent(mnemonic));
+    "&iso_date="+iso_date);
 }
 
 var zerohex="0000000000000000000000000000000000000000000000000000000000000000";
@@ -11453,46 +11511,111 @@ function checkEntropy()
     user_entropy_warning_widget.style.display = "block"
 }
 
-function toggle_qr()
+function hide_qr()
 {
   address_qr_widget = document.getElementById("address_qr_widget");
-  priv_qr_widget = document.getElementById("priv_qr_widget");
+  priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
+  priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
+  priv_view_qr_widget = document.getElementById("priv_view_qr_widget");
+  spend_key_widget = document.getElementById("spend_key_widget");
+  view_key_widget = document.getElementById("view_key_widget");
+  mnemonic_widget = document.getElementById("mnemonic_widget");
+
+  address_qr_widget.style.display = "none";
+  priv_mnemonic_qr_widget.style.display = "none";
+  priv_spend_qr_widget.style.display = "none";
+  priv_view_qr_widget.style.display = "none";
+  spend_key_widget.style.display = "block";
+  view_key_widget.style.display = "block";
+  mnemonic_widget.style.display = "block";
+}
+
+function toggle_address_qr()
+{
+  address_qr_widget = document.getElementById("address_qr_widget");
+  priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
+  priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
+  priv_view_qr_widget = document.getElementById("priv_view_qr_widget");
   spend_key_widget = document.getElementById("spend_key_widget");
   view_key_widget = document.getElementById("view_key_widget");
   mnemonic_widget = document.getElementById("mnemonic_widget");
   if (address_qr_widget.style.display=="block") {
-    address_qr_widget.style.display="none";
-    priv_qr_widget.style.display="none";
-    spend_key_widget.style.display = "block";
-    view_key_widget.style.display = "block";
-    mnemonic_widget.style.display = "block";
+    hide_qr();
   }
   else {
-    address_qr_widget.style.display="block";
-    priv_qr_widget.style.display="none";
+    address_qr_widget.style.display = "block";
+    priv_mnemonic_qr_widget.style.display = "none";
+    priv_spend_qr_widget.style.display = "none";
+    priv_view_qr_widget.style.display = "none";
     spend_key_widget.style.display = "none";
     view_key_widget.style.display = "none";
     mnemonic_widget.style.display = "none";
   }
 }
 
-function toggle_priv_qr()
+function toggle_priv_mnemonic_qr()
 {
   address_qr_widget = document.getElementById("address_qr_widget");
-  priv_qr_widget = document.getElementById("priv_qr_widget");
+  priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
+  priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
+  priv_view_qr_widget = document.getElementById("priv_view_qr_widget");
   spend_key_widget = document.getElementById("spend_key_widget");
   view_key_widget = document.getElementById("view_key_widget");
   mnemonic_widget = document.getElementById("mnemonic_widget");
-  if (priv_qr_widget.style.display=="block") {
-    address_qr_widget.style.display="none";
-    priv_qr_widget.style.display="none";
-    spend_key_widget.style.display = "block";
-    view_key_widget.style.display = "block";
-    mnemonic_widget.style.display = "block";
+  if (priv_mnemonic_qr_widget.style.display=="block") {
+    hide_qr();
   }
   else {
-    address_qr_widget.style.display="none";
-    priv_qr_widget.style.display="block";
+    address_qr_widget.style.display = "none";
+    priv_mnemonic_qr_widget.style.display = "block";
+    priv_spend_qr_widget.style.display = "none";
+    priv_view_qr_widget.style.display = "none";
+    spend_key_widget.style.display = "none";
+    view_key_widget.style.display = "none";
+    mnemonic_widget.style.display = "none";
+  }
+}
+
+function toggle_priv_spend_qr()
+{
+  address_qr_widget = document.getElementById("address_qr_widget");
+  priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
+  priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
+  priv_view_qr_widget = document.getElementById("priv_view_qr_widget");
+  spend_key_widget = document.getElementById("spend_key_widget");
+  view_key_widget = document.getElementById("view_key_widget");
+  mnemonic_widget = document.getElementById("mnemonic_widget");
+  if (priv_spend_qr_widget.style.display=="block") {
+    hide_qr();
+  }
+  else {
+    address_qr_widget.style.display = "none";
+    priv_mnemonic_qr_widget.style.display = "none";
+    priv_spend_qr_widget.style.display = "block";
+    priv_view_qr_widget.style.display = "none";
+    spend_key_widget.style.display = "none";
+    view_key_widget.style.display = "none";
+    mnemonic_widget.style.display = "none";
+  }
+}
+
+function toggle_priv_view_qr()
+{
+  address_qr_widget = document.getElementById("address_qr_widget");
+  priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
+  priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
+  priv_view_qr_widget = document.getElementById("priv_view_qr_widget");
+  spend_key_widget = document.getElementById("spend_key_widget");
+  view_key_widget = document.getElementById("view_key_widget");
+  mnemonic_widget = document.getElementById("mnemonic_widget");
+  if (priv_view_qr_widget.style.display=="block") {
+    hide_qr();
+  }
+  else {
+    address_qr_widget.style.display = "none";
+    priv_mnemonic_qr_widget.style.display = "none";
+    priv_spend_qr_widget.style.display = "none";
+    priv_view_qr_widget.style.display = "block";
     spend_key_widget.style.display = "none";
     view_key_widget.style.display = "none";
     mnemonic_widget.style.display = "none";
@@ -11545,7 +11668,9 @@ function setCoin(index)
   enableLanguage("jp", enable)
   enableLanguage("eo", enable)
   enableElement("show_qr_code", enable)
-  enableElement("show_priv_qr_code", enable)
+  enableElement("show_priv_mnemonic_qr_code", enable)
+  enableElement("show_priv_spend_qr_code", enable)
+  enableElement("show_priv_view_qr_code", enable)
 }
 
 var oldSelectionIndex = false;
