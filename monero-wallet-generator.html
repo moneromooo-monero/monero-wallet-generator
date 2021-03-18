@@ -10796,7 +10796,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <div class="card-content pink-text text-darken-5">
                     <span class="card-title pink-text text-darken-5">Mnemonic seed</span>
                     <p>
-                        The mnemonic seed is a string that comprises 24 (Aeon) or 25 (Monero) words and allows you to recreate your
+                        The mnemonic seed is a string that comprises 25 words and allows you to recreate your
                         private keys. <b>Keep it secure!</b>
                     </p>
                 </div>
@@ -11201,8 +11201,8 @@ function setCoin(index)
   else if (index == 1) {
     cnUtil = cnUtilGen(aeonConfig);
     prefix_widget.value = "Wm";
-    enable = false;
-    current_lang = 'electrum';
+    enable = true;
+    current_lang = 'english';
   }
   enableLanguage("en", enable)
   enableLanguage("es", enable)
