@@ -8542,14 +8542,24 @@ var moneroConfig = {
     coinSymbol: 'XMR',
     coinName: 'Monero',
     coinUriPrefix: 'monero:',
-    addressPrefix: 18
+    addressPrefix: 18,
+    addressHeader: ''
 };
 var aeonConfig = {
     coinUnitPlaces: 12,
     coinSymbol: 'AEON',
     coinName: 'Aeon',
     coinUriPrefix: 'aeon:',
-    addressPrefix: 0xB2
+    addressPrefix: 0xB2,
+    addressHeader: ''
+};
+var townforgeConfig = {
+    coinUnitPlaces: 8,
+    coinSymbol: 'None',
+    coinName: 'Townforge',
+    coinUriPrefix: 'townforge:',
+    addressPrefix: 0x78,
+    addressHeader: 'TF1M'
 };
 var cnUtilGen = function(initConfig) {
     //var config = $.extend({}, initConfig);
@@ -8560,6 +8570,7 @@ var cnUtilGen = function(initConfig) {
     var HASH_SIZE = 32;
     var ADDRESS_CHECKSUM_SIZE = 4;
     var CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX = config.addressPrefix;
+    var ADDRESS_HEADER = config.addressHeader;
     var UINT64_MAX = new JSBigInt(2).pow(64);
     var CURRENT_TX_VERSION = 1;
     var TX_EXTRA_NONCE_MAX_COUNT = 255;
@@ -8691,7 +8702,7 @@ var cnUtilGen = function(initConfig) {
         var prefix = this.encode_varint(CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX);
         var data = prefix + spend + view;
         var checksum = this.cn_fast_hash(data);
-        return cnBase58.encode(data + checksum.slice(0, ADDRESS_CHECKSUM_SIZE * 2));
+        return ADDRESS_HEADER + cnBase58.encode(data + checksum.slice(0, ADDRESS_CHECKSUM_SIZE * 2));
     };
 
     // Generate keypair from seed
@@ -8772,7 +8783,7 @@ var cnUtilGen = function(initConfig) {
         }
         var spend = this.generate_keys(first);
         var prefix = this.encode_varint(CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX);
-        return cnBase58.encode(prefix + spend.pub).slice(0, 44);
+        return ADDRESS_HEADER + cnBase58.encode(prefix + spend.pub).slice(0, 44);
     };
 
     this.hash_to_ec = function(key) {
@@ -8797,6 +8808,11 @@ var cnUtilGen = function(initConfig) {
     };
 
     this.decode_address = function(address) {
+        var header = address.slice(0, 4)
+        if (header != ADDRESS_HEADER) {
+            throw "Invlaid address header";
+        }
+        address = address.slice(4)
         var dec = cnBase58.decode(address);
         var expectedPrefix = this.encode_varint(CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX);
         var prefix = dec.slice(0, expectedPrefix.length);
@@ -10728,11 +10744,12 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <select id="currencyDropDownList" onchange="js:setCoin(this.selectedIndex);genwallet();restore_old_selection_index();" class="waves-effect waves-light btn" style="max-width: 20%">
                   <option>Monero</option>
                   <option>Aeon</option>
+                  <option>Townforge</option>
                 </select>
                 wallet. It is self contained and
                 does all the necessary calculations locally, so is suitable for generating a new wallet on a machine
                 that is not connected to the network, and may even never be. This way, you can create
-                a Monero/Aeon wallet without risking the keys. This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
+                a Monero/Aeon/Townforge wallet without risking the keys. This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
                 You can check for up to date versions of this page
                 <a href="https://github.com/moneromooo-monero/monero-wallet-generator/blob/master/monero-wallet-generator.html">here</a>.
             </p>
@@ -10855,6 +10872,8 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <pre>Monero: 4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</pre>
                     <br>
                 <pre>Aeon: WmtXcFZj5iGY21JxAtFsJVQmQQyo7jgoJP8V4zLWVzDeeTfvbP8Mzb5gbNpQEc6BkeUYUqjGntHDSDyA6LKjdGBQ1w9iEpfVw</pre>
+                    <br>
+                <pre>Townforge: TF1MMDuPzx7CVoCDSjxEHGLQPvdRy5Mjjyg4KG8QY3qkZZVtBobvGkvv4JLbycx1UQrosqEyqZT9ye7zrZR3ucZp6iBp1YaRzLK</pre>
 
                 <br>
                 Thanks, and welcome to Monero!
@@ -11203,6 +11222,12 @@ function setCoin(index)
     prefix_widget.value = "Wm";
     enable = true;
     current_lang = 'english';
+  }
+  else if (index == 2) {
+    cnUtil = cnUtilGen(townforgeConfig);
+    prefix_widget.value = "TF1M";
+    enable = true
+    language = "english"
   }
   enableLanguage("en", enable)
   enableLanguage("es", enable)
