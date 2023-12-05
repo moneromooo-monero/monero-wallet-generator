@@ -120,6 +120,16 @@
             margin-bottom: 10px !important;
         }
 
+        #dimoutPage {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            backdrop-filter: blur(2px);
+            z-index: 100;
+        }
+
         pre { margin:0px;}
     </style>
     <style>
@@ -11131,6 +11141,7 @@ html { font-family: sans-serif }
 }
 </style>
 
+<div id="dimoutPage"></div>
 <nav class="grey lighten-3">
     <div class="nav-wrapper">
         <a href="#" class="brand-logo center">
@@ -11736,6 +11747,8 @@ function checkEntropy()
 
 function hide_qr()
 {
+  dimoutPageNow(false)
+
   address_qr_widget = document.getElementById("address_qr_widget");
   priv_mnemonic_qr_widget = document.getElementById("priv_mnemonic_qr_widget");
   priv_spend_qr_widget = document.getElementById("priv_spend_qr_widget");
@@ -11753,6 +11766,18 @@ function hide_qr()
   mnemonic_widget.style.display = "block";
 }
 
+function dimoutPageNow(mustDimout) {
+    dimoutElmnt = document.getElementById('dimoutPage');
+    if (dimoutElmnt==undefined) return;
+
+    if (mustDimout) {
+        dimoutPage.style.display = 'block'
+        return
+    }
+
+    dimoutPage.style.display = 'none'
+}
+
 function toggle_address_qr()
 {
   address_qr_widget = document.getElementById("address_qr_widget");
@@ -11762,10 +11787,12 @@ function toggle_address_qr()
   spend_key_widget = document.getElementById("spend_key_widget");
   view_key_widget = document.getElementById("view_key_widget");
   mnemonic_widget = document.getElementById("mnemonic_widget");
+
   if (address_qr_widget.style.display=="block") {
     hide_qr();
   }
   else {
+    dimoutPageNow(true)
     address_qr_widget.style.display = "block";
     priv_mnemonic_qr_widget.style.display = "none";
     priv_spend_qr_widget.style.display = "none";
@@ -11789,6 +11816,7 @@ function toggle_priv_mnemonic_qr()
     hide_qr();
   }
   else {
+    dimoutPageNow(true)
     address_qr_widget.style.display = "none";
     priv_mnemonic_qr_widget.style.display = "block";
     priv_spend_qr_widget.style.display = "none";
@@ -11812,6 +11840,7 @@ function toggle_priv_spend_qr()
     hide_qr();
   }
   else {
+    dimoutPageNow(true)
     address_qr_widget.style.display = "none";
     priv_mnemonic_qr_widget.style.display = "none";
     priv_spend_qr_widget.style.display = "block";
@@ -11835,6 +11864,7 @@ function toggle_priv_view_qr()
     hide_qr();
   }
   else {
+    dimoutPageNow(true)
     address_qr_widget.style.display = "none";
     priv_mnemonic_qr_widget.style.display = "none";
     priv_spend_qr_widget.style.display = "none";
