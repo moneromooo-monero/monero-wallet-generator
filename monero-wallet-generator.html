@@ -11896,6 +11896,9 @@ var cnUtil;
 var current_lang;
 function setCoin(index)
 {
+  var list = document.getElementById("currencyDropDownList");
+  list.value = list[index].value;
+
   var enable
   prefix_widget = document.getElementById("prefix_widget");
   if (index == 0) {
@@ -11942,7 +11945,21 @@ function restore_old_selection_index()
   }
 }
 
-setCoin(document.getElementById("currencyDropDownList").selectedIndex);
+<!-- allow parameters -->
+var initial = document.getElementById("currencyDropDownList").selectedIndex;
+var params = new URLSearchParams(window.location.search);
+var coin = params.get("coin").toLowerCase();
+var list = document.getElementById("currencyDropDownList");
+for (var i = 0; i < list.length; ++i)
+{
+  if (list[i].value.toLowerCase() == coin)
+  {
+    initial = i;
+    break;
+  }
+}
+
+setCoin(initial);
 genwallet();
 </script>
 
